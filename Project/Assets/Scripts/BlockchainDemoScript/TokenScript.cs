@@ -18,15 +18,16 @@ public class TokenScript : MonoBehaviour
     }
 
     public string transaction;
-    public async void Transact(Text amount)
+    int decimalPlaces = -1;
+    public async void Transact(InputField amount)
     {
-        string recipient = "0x6A178306b94903Ca76cab17D239D3Bf525fddd3B";
+        string recipient = "0x8d7090b7E3F8436150DFf41e233B499c0343A45f";
 
         try
         {
-            BigInteger.Parse(amount.text);
+            BigInteger x = BigInteger.Parse(amount.text);
 
-            transaction = await MyToken.Transfer(recipient, 1000000000);
+            transaction = await MyToken.Transfer(recipient, x);
         }
         catch (Exception e)
         {

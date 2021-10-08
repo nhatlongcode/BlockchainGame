@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Ball : HistoryObject
 {
-    public float initialTime;
+    //public float initialTime;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
         MovementStraight straight = new MovementStraight();
         straight.StartPosition = transform.position;
         straight.StartVelocity = new Vector2(0, 1);
@@ -24,21 +26,23 @@ public class Ball : HistoryObject
 
         MovementStraight straight3 = new MovementStraight();
 
-        AddMovementStrategy(straight, 0);
-        AddMovementStrategy(straight3, 11);
-        AddMovementStrategy(parabola3, 10);
-        AddMovementStrategy(parabola2, 8);
-        AddMovementStrategy(straight2, 5);
-        AddMovementStrategy(parabola, 3);
-
+        AddActionStrategy(straight, 0);
+        AddActionStrategy(straight3, 11);
+        AddActionStrategy(parabola3, 10);
+        AddActionStrategy(parabola2, 8);
+        AddActionStrategy(straight2, 5);
+        AddActionStrategy(parabola, 3);
+    }
+    /*
         initialTime = Time.time;
         time = 0;
     }
     public bool paused;
-    public override void Update()
+    public void Update()
     {
         if (!paused)
             time += Time.deltaTime;
-        base.Update();
+        MyUpdate();
     }
+    //*/
 }
