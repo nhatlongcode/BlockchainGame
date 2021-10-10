@@ -11,19 +11,35 @@ public class Projectile : HistoryObject
         MovementParabola parabol = new MovementParabola(-4);
         parabol.StartVelocity = new Vector2(2, 4);
         parabol.StartPosition = spawner.transform.position;
-        parabol.StartTime = time;
+        parabol.StartTime = currentTime;
 
-        AddActionStrategy(parabol, time);
+        AddActionStrategy(parabol, currentTime);
     }
     bool despawned = false;
     public override void MyUpdate()
     {
         base.MyUpdate();
+    }
 
-        if (transform.position.y < -2 && !despawned)
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (gameObject.activeSelf && armed == float.PositiveInfinity)
+            armed = currentTime;
+    }
+
+    float armed = float.PositiveInfinity;
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (armed > currentTime)
         {
-            AddActionStrategy(new ActionDespawn(), time);
+            return;
+        }
+        if (!despawned)
+        {
+            AddActionStrategy(new ActionDespawn(), currentTime);
             despawned = true;
         }
+        else
+            Debug.LogWarning("despawn twice");
     }
 }

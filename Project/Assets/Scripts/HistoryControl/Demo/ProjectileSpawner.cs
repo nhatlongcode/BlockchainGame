@@ -11,12 +11,18 @@ public class ProjectileSpawner : HistoryObject
 
     }
     int count = 0;
+
+    HistoryObject SpawnNewObject()
+    {
+        return Instantiate(prefab, transform.position, transform.rotation);
+    }
+
     public override void MyUpdate()
     {
-        if (count * 4 < time)
+        if (count * 4 < currentTime)
         {
-            prefab.time = count * 4 + 1;
-            HistoryObject go = Instantiate(prefab, transform.position, transform.rotation);
+            prefab.currentTime = count * 4 + 1;
+            HistoryObject go = SpawnNewObject();
             ActionSpawnObject action = new ActionSpawnObject(go, 1);
             action.StartPosition = transform.position;
             action.StartVelocity = new Vector2(0, 0);

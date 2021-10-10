@@ -5,12 +5,11 @@ using UnityEngine;
 public class ActionSpawnObject : ActionStrategy
 {
     public HistoryObject objectSpawned;
-    public float timeToSpawn;
     // Obj assumed to be instantiated.
     public ActionSpawnObject(HistoryObject obj, float timeToSpawn)
     {
         objectSpawned = obj;
-        this.timeToSpawn = timeToSpawn;
+        obj.spawnTime = timeToSpawn;
     }
 
     public override Vector2? CalculateLocation(float time)
@@ -25,7 +24,7 @@ public class ActionSpawnObject : ActionStrategy
 
     public override HistoryObject SpawnedObject(float time)
     {
-        if (time > timeToSpawn)
+        if (time > objectSpawned.spawnTime)
             return objectSpawned;
         else
             return null;

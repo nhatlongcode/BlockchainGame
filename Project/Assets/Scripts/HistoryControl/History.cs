@@ -32,7 +32,7 @@ public class History : MonoBehaviour
         List<HistoryObject> historyObjectListClone = new List<HistoryObject>(historyObjectList);
         foreach (HistoryObject item in historyObjectListClone)
         {
-            item.time = time;
+            item.currentTime = time;
             item.MyUpdate();
         }
     }

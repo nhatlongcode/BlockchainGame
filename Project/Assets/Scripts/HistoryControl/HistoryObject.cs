@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class HistoryObject : MonoBehaviour
 {
-    public float time;
+    public float currentTime;
     public HistoryObject spawner;
+    public float spawnTime;
     public bool isPrefab = true;
 
     protected virtual void Start()
     {
+        spawnTime = currentTime;
         if (!isPrefab)
             History.Inst.historyObjectList.Add(this);
     }
@@ -18,7 +20,7 @@ public class HistoryObject : MonoBehaviour
     // Update is called by History once per frame
     public virtual void MyUpdate()
     {
-        Vector2? pos = GetPosition(time);
+        Vector2? pos = GetPosition(currentTime);
         if (pos != null)
         {
             if (!gameObject.activeSelf)
