@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArrowKeyControlledPlayer : MonoBehaviour
+public class ArrowKeyControlledPlayer : HistoryObject
 {
     public enum Command
     {
@@ -14,6 +14,7 @@ public class ArrowKeyControlledPlayer : MonoBehaviour
         OnGround = 2,           // TODO: Add snap to ground feature
 
     }
+    State state;
 
     public Dictionary<Command, List<KeyCode>> validKeys = new Dictionary<Command, List<KeyCode>>
     {
@@ -34,41 +35,79 @@ public class ArrowKeyControlledPlayer : MonoBehaviour
             case Command.Down:
                 return new Vector2(0, -1);
             case Command.Left:
-                return new Vector2(-1, 1);
+                return new Vector2(-1, 0);
             case Command.Right:
-                return new Vector2(1, 1);
+                return new Vector2(1, 0);
             default:
                 return new Vector2(0, 0);
         } 
     }
 
+    public new Collider2D collider;
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        
+        base.Start();
+        if (collider == null)
+            collider = GetComponent<Collider2D>();
     }
 
+    public const float accel = 10f;
     // Update is called once per frame
-    void Update()
+    public override void MyUpdate()
     {
-        
+        if (MovementKeyProcess())
+        {
+            History.Inst.StartTime();
+            rigidbody.AddForce(movementCommands.GetAction(time) * deltaTime * accel);
+        }
+        else
+        {
+            History.Inst.StopTime();
+        }
     }
 
     bool checkInput(Command cmd)
     {
         foreach (KeyCode key in validKeys[cmd])
         {
-            if (Input.GetKeyDown(key))
+            if (Input.GetKey(key))
                 return true;
         }
         return false;
     }
 
-    void LeftRightMovement()
+    int prevLRdir = 0;
+    float currentLRDuration = 0;
+    TimelineList<Vector2> movementCommands = new TimelineList<Vector2>();
+    //Returns any actions valid for Movement
+    protected bool MovementKeyProcess()
     {
-        if (checkInput(Command.Left))
-        {
+        Vector2 dir = new Vector2(0 , 0);
+        bool anyMovementKeyPressed = false;
+        List<Command> movementCommandList = new List<Command>
+        { 
+            Command.Up, 
+            Command.Down, 
+            Command.Left, 
+            Command.Right, 
+            Command.Space 
+        };
 
+        foreach (var key in movementCommandList)
+        {
+            if (checkInput(key))
+            {
+                dir += direction(key);
+                anyMovementKeyPressed = true;
+            }
         }
+
+        if (dir.sqrMagnitude > 1)
+            dir.Normalize();
+
+        movementCommands.Add(time, dir);
+
+        return anyMovementKeyPressed;
     }
 }
