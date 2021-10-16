@@ -53,16 +53,18 @@ public class ArrowKeyControlledPlayer : HistoryObject
     }
 
     public const float accel = 10f;
+    public bool replayMode = false;
     // Update is called once per frame
     public override void MyUpdate()
     {
-        if (MovementKeyProcess())
+        if (MovementKeyProcess() || replayMode)
         {
             History.Inst.StartTime();
             rigidbody.AddForce(movementCommands.GetAction(time) * deltaTime * accel);
         }
         else
         {
+            rigidbody.AddForce(movementCommands.GetAction(time) * deltaTime * accel);
             History.Inst.StopTime();
         }
     }
@@ -77,8 +79,6 @@ public class ArrowKeyControlledPlayer : HistoryObject
         return false;
     }
 
-    int prevLRdir = 0;
-    float currentLRDuration = 0;
     TimelineList<Vector2> movementCommands = new TimelineList<Vector2>();
     //Returns any actions valid for Movement
     protected bool MovementKeyProcess()
@@ -106,7 +106,8 @@ public class ArrowKeyControlledPlayer : HistoryObject
         if (dir.sqrMagnitude > 1)
             dir.Normalize();
 
-        movementCommands.Add(time, dir);
+        if (anyMovementKeyPressed)
+            movementCommands.Add(time, dir);
 
         return anyMovementKeyPressed;
     }

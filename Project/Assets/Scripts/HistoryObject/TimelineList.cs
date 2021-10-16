@@ -41,7 +41,7 @@ public class TimelineList<T> where T : IEquatable<T>
     {
         int l = 0;
         int r = Timeline.Count - 1;
-        while (l > r)
+        while (l <= r)
         {
             int m = (l + r) / 2;
             if (Timeline[m].Item1 < time)
