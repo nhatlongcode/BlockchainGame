@@ -35,8 +35,8 @@ public class History : IHistoryObject
     {
         if (!IsTimeStopped)
         {
-            time += Time.deltaTime;
-            deltaTime = Time.deltaTime;
+            time += Time.fixedDeltaTime;
+            deltaTime = Time.fixedDeltaTime;
         }
         else
         {

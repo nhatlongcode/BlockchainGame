@@ -22,6 +22,14 @@ public class TimelineList<T> where T : IEquatable<T>
 {
     public StackList<Tuple<float, T>> Timeline = new StackList<Tuple<float, T>>();
 
+    public float Top()
+    {
+        if (Timeline.Count > 0)
+            return Timeline.Peek().Item1;
+        else
+            return 0;
+    }
+
     public void Add(float time, T action)
     {
         while (Timeline.Count > 0 && Timeline.Peek().Item1 > time)

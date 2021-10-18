@@ -10,12 +10,12 @@ public class HistoryObject : IHistoryObject
     Dictionary<int, float> angularVelocity = new Dictionary<int, float>();
     public new Rigidbody2D rigidbody;
 
-    Vector2 tempVelocity;
-    float tempAngularVelocity;
+    protected Vector2 tempVelocity;
+    protected float tempAngularVelocity;
 
     public float time { get => History.Inst.time; }
     public float deltaTime { get => History.Inst.deltaTime; }
-    public bool IsTimeStopped;
+    public bool IsTimeStopped { get => History.Inst.PrevIsTimeStopped; }
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -87,18 +87,16 @@ public class HistoryObject : IHistoryObject
             tempAngularVelocity = rigidbody.angularVelocity;
             rigidbody.angularVelocity = 0;
         }
-        IsTimeStopped = true;
     }
 
     public override void StartTime()
     {
         if (rigidbody != null)
         {
-            rigidbody.velocity = tempVelocity;
+            rigidbody.velocity += tempVelocity;
             tempVelocity = new Vector2(0, 0);
-            rigidbody.angularVelocity = tempAngularVelocity;
+            rigidbody.angularVelocity += tempAngularVelocity;
             tempAngularVelocity = 0;
         }
-        IsTimeStopped = false;
     }
 }

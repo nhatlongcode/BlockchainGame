@@ -14,6 +14,8 @@ namespace DTerrain
 
         public int Width { get; private set; }
         public int Height { get; private set; }
+        public int OffsetX { get; private set; }
+        public int OffsetY { get; private set; }
 
         public Shape(int w, int h)
         {
@@ -38,6 +40,7 @@ namespace DTerrain
         {
             int centerX = r;
             int centerY = r;
+            
             Shape s = new Shape(2 * r, 2 * r);
             for (int i = 0; i <= 2 * r; i++)
             {
@@ -75,6 +78,9 @@ namespace DTerrain
 
             }
 
+            s.OffsetX = -r;
+            s.OffsetY = -r;
+
             return s;
         }
 
@@ -86,6 +92,9 @@ namespace DTerrain
             {
                 s.Ranges.Add(new Range(0, h-1)); //0,1,2...h-1
             }
+
+            s.OffsetX = -w / 2;
+            s.OffsetY = -h / 2;
 
             return s;
         }

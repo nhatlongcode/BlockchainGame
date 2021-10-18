@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e865ffe4c819d0f4a9b2db8880bc0e3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 0
+  Speed: 20
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -263,8 +263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4af001885c4fabf44bb122b3b693310e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ChunkCountX>k__BackingField: 64
-  <ChunkCountY>k__BackingField: 64
+  <ChunkCountX>k__BackingField: 16
+  <ChunkCountY>k__BackingField: 16
   chunkTemplate: {fileID: 5194434684234072523, guid: 847a2e425730df3409385592b669f10a, type: 3}
   <OriginalTexture>k__BackingField: {fileID: 2800000, guid: 926131c18f8d23043b23b21a7311192b, type: 3}
   <Height>k__BackingField: 10
@@ -281,6 +281,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1036478517}
+  - component: {fileID: 1036478518}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -304,6 +305,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1036478518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036478516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 890cbfb4b1eabd544a5a15fb1b32f854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logicLayer: {fileID: 829488849}
+  spriteLayer: {fileID: 1835826117}
 --- !u!1 &1242677203
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,6 +329,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1242677208}
   - component: {fileID: 1242677207}
+  - component: {fileID: 1242677210}
+  - component: {fileID: 1242677209}
   - component: {fileID: 1242677206}
   - component: {fileID: 1242677205}
   - component: {fileID: 1242677204}
@@ -354,7 +371,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 0.2
   m_LinearDrag: 0.05
-  m_AngularDrag: 0
+  m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 80f77068d3a63cb45a985f7b781ba6be, type: 2}
   m_Interpolate: 0
@@ -374,8 +391,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 1242677205}
-  IsTimeStopped: 0
+  currentSkill: 1
+  SkillList:
+  - {fileID: 1242677210}
+  - {fileID: 1242677209}
+  - {fileID: 0}
+  - {fileID: 0}
   collider: {fileID: 1242677204}
+  replayMode: 0
 --- !u!212 &1242677207
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -441,6 +464,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1242677209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242677203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73b97074765b1e94bbcc331c540a2f5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 7728740918274046278, guid: b2b699f1215a2964a830a90229893ca2, type: 3}
+--- !u!114 &1242677210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242677203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6b937f4331e93b4faadaa4b3c2ed80d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1331505403
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,7 +521,7 @@ MonoBehaviour:
   time: 0
   deltaTime: 0
   IsTimeStopped: 0
-  save: 0
+  save: 1
   restore: 0
   ObjectList: []
   saveCheckpoint: 0
@@ -536,9 +584,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4af001885c4fabf44bb122b3b693310e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ChunkCountX>k__BackingField: 1
-  <ChunkCountY>k__BackingField: 1
-  chunkTemplate: {fileID: 5194434684234072523, guid: 37c73454f27eef44b862eb12bd4ee2a3, type: 3}
+  <ChunkCountX>k__BackingField: 16
+  <ChunkCountY>k__BackingField: 16
+  chunkTemplate: {fileID: 6345044675586646641, guid: f341a20b48d65f747a9a6e346c9445db, type: 3}
   <OriginalTexture>k__BackingField: {fileID: 2800000, guid: 926131c18f8d23043b23b21a7311192b, type: 3}
   <Height>k__BackingField: 10
   <Width>k__BackingField: 10

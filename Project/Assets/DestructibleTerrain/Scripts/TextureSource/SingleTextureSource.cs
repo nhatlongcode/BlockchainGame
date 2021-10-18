@@ -18,7 +18,7 @@ namespace DTerrain
             get => texture;
             set
             {
-                /*
+                //*
                 OriginalTexture = new Texture2D(value.width, value.height);
                 OriginalTexture.filterMode = value.filterMode;
                 Graphics.CopyTexture(value, OriginalTexture);

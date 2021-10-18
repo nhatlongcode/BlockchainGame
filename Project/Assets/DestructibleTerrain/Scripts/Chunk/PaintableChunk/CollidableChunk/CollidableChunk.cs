@@ -13,14 +13,13 @@ namespace DTerrain
     public class CollidableChunk : PaintableChunk
     {
         public float AlphaTreshold { get; set; } = 0.01f;
-        public float DeltaTimeRemember = 10.0f;
         protected List<Column> columns;
         protected IChunkCollider chunkCollider;
         protected bool colliderChanged = true;
 
         public override void Init()
         {
-            base.Init();
+            //base.Init();
             chunkCollider = GetComponent<IChunkCollider>();
             PrepareColumns();
         }
@@ -40,7 +39,10 @@ namespace DTerrain
         public override void Update()
         {
             base.Update();
-            if(colliderChanged)
+
+            Revert(Terrain.Inst.time);
+
+            if (colliderChanged)
             {
                 chunkCollider?.UpdateColliders(columns, TextureSource);
 
@@ -48,6 +50,7 @@ namespace DTerrain
 
                 colliderChanged = false;
             }
+            reverted = false;
         }
 
         public virtual bool IsOccupiedAt(Vector2Int at)
@@ -66,13 +69,14 @@ namespace DTerrain
 
             for(int i = 0; i<common.width;i++)
             {
+                Column columnClone = new Column(columns[common.x + i]);
                 bool changed = columns[common.x + i].DelRange(new Range(common.y-1, common.y+common.height));
 
                 if (changed)
                 {
                     int column = common.x + i;
-                    if (newEntry.ContainsKey(column))
-                        newEntry[column] = new Column(columns[column]);
+                    if (!newEntry.ContainsKey(column))
+                        newEntry[column] = columnClone;
 
                     colliderChanged = true;
                 }
@@ -86,30 +90,39 @@ namespace DTerrain
 
             for (int i = 0; i < common.width; i++)
             {
+                Column columnClone = new Column(columns[common.x + i]);
                 bool changed = columns[common.x + i].SumRange(new Range(common.y, common.y + common.height - 1));
 
                 if (changed)
                 {
                     int column = common.x + i;
-                    if (newEntry.ContainsKey(column))
-                        newEntry[column] = new Column(columns[column]);
+                    if (!newEntry.ContainsKey(column))
+                        newEntry[column] = columnClone;
 
                     colliderChanged = true;
                 }
             }
         }
 
+        bool reverted = false;
         Dictionary<int, Column> newEntry = new Dictionary<int, Column>();
         private LinkedList<Tuple<float, Dictionary<int, Column>>> RevertTable = new LinkedList<Tuple<float, Dictionary<int, Column>>>();
         public void Revert(float time)
         {
+            if (RevertTable.Count == 0)
+                return;
+            if (time >= RevertTable.First.Value.Item1)
+            {
+                //Debug.LogWarning("Revert nothing.");
+                return;
+            }
             if (time < RevertTable.Last.Value.Item1)
             {
-                //Debug.LogError("Revert to time before known");
+                //Debug.LogWarning("Revert to time before known.");
                 return;
-            }    
+            }
             List<Column> revert = new List<Column>();
-            foreach (var _ in columns)
+            for (int i = 0; i < columns.Count; i++)
                 revert.Add(null);
             while (RevertTable.First.Value.Item1 > time)
             {
@@ -138,14 +151,17 @@ namespace DTerrain
                     colliderChanged = true;
                     columns[i] = revert[i];
                 }
+            reverted = true;
         }
 
         private void DetectChanges()
         {
+            if (reverted)
+                return;
             RevertTable.AddFirst(Tuple.Create(History.Inst.time, newEntry));
             newEntry = new Dictionary<int, Column>();
 
-            while (History.Inst.time - DeltaTimeRemember > RevertTable.Last.Value.Item1)
+            while (History.Inst.time - Constant.deltaTimeMemory > RevertTable.Last.Value.Item1)
                 RevertTable.RemoveLast();
         }
 
