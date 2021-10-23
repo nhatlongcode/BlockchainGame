@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon;
+using Photon.Pun;
 
-public abstract class ISkill : MonoBehaviour
+public abstract class ISkill : MonoBehaviourPunCallbacks
 {
     public abstract bool KeyProcess(float time, float deltaTime, Rigidbody2D rigidbody, Transform transform);
     public abstract void Action(float time, float deltaTime, Rigidbody2D rigidbody, Transform transform);
     public abstract bool OnExitSkill(float time);
+
+    public abstract void SyncData();
 }
 public static class Extension
 {

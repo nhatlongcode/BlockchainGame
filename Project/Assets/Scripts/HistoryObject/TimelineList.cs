@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using SelfBalancedTree;
+using System.Linq;
 [Serializable]
 public class StackList<T> : List<T>
 {
@@ -47,6 +47,28 @@ public class TimelineList<T> where T : IEquatable<T>
 
     public T GetAction(float time)
     {
+        int r = binSearch(time);
+        if (r >= 0)
+            return Timeline[r].Item2;
+        else
+            return default;
+    }
+
+    // Remove all events before time
+    public void PruneFront(float time)
+    {
+        int r = binSearch(time);
+        if (r >= 0)
+            Timeline.RemoveRange(0, r + 1);
+    }
+
+    public List<Tuple<float, T>> AllEventsAfterTime(float time)
+    {
+        return new List<Tuple<float, T>>(Timeline.Where(item => item.Item1 > time));
+    }
+
+    private int binSearch(float time)
+    {
         int l = 0;
         int r = Timeline.Count - 1;
         while (l <= r)
@@ -57,9 +79,6 @@ public class TimelineList<T> where T : IEquatable<T>
             else
                 r = m - 1;
         }
-        if (r >= 0)
-            return Timeline[r].Item2;
-        else
-            return default;
+        return r;
     }
 }

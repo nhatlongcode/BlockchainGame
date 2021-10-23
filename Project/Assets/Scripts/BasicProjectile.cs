@@ -10,9 +10,9 @@ public class BasicProjectile : HistoryObject, IEquatable<BasicProjectile>
     public Collider2D collider;
     [NonSerialized]
     public float TimeToArm;
-    public const float speed = 3;
 
-    public const int destroyCircleSize = 8;
+    public int destroyCircleSize = 8;
+    public BulletProperty bulletProperty;
     Shape destroyCircle;
 
     BasicProjectile()
@@ -32,10 +32,9 @@ public class BasicProjectile : HistoryObject, IEquatable<BasicProjectile>
 
         destroyCircle = Shape.GenerateShapeCircle(destroyCircleSize);
 
-        if (IsTimeStopped)
-            tempVelocity = transform.up * speed;
-        else
-            rigidbody.velocity = transform.up * speed;
+        SetVelocity(bulletProperty.velocity);
+        transform.position = bulletProperty.position;
+        transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, 1), bulletProperty.velocity);
 
         if (collider == null)
             collider = GetComponent<Collider2D>();
@@ -70,7 +69,8 @@ public class BasicProjectile : HistoryObject, IEquatable<BasicProjectile>
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Terrain.Inst.DestroyTerrain(collision.GetContact(0).point, destroyCircle);
+        if (gameObject.activeSelf)
+            Terrain.Inst.DestroyTerrain(collision.GetContact(0).point, destroyCircle);
         gameObject.SetActive(false);
     }
 }

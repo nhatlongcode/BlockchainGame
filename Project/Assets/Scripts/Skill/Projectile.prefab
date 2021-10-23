@@ -99,6 +99,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 8341288686206916228}
   collider: {fileID: 0}
+  speed: 10
+  destroyCircleSize: 16
 --- !u!50 &8341288686206916228
 Rigidbody2D:
   serializedVersion: 4

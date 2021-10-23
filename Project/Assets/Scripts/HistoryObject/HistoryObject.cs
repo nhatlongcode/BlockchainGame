@@ -99,4 +99,20 @@ public class HistoryObject : IHistoryObject
             tempAngularVelocity = 0;
         }
     }
+
+    public void SetVelocity(Vector2 velocity)
+    {
+        if (IsTimeStopped)
+            tempVelocity = velocity;
+        else
+            rigidbody.velocity = velocity;
+    }
+
+    public void SetAngularVelocity(float angularV)
+    {
+        if (IsTimeStopped)
+            tempAngularVelocity = angularV;
+        else
+            rigidbody.angularVelocity = angularV;
+    }
 }

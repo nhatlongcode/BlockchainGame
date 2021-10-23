@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon;
+using Photon.Pun;
+using System;
 
 public class SkillMovementBasic : ISkill
 {
     public const float accel = 10f;
+    
     TimelineList<Vector2> movementCommands = new TimelineList<Vector2>();
 
     Vector2 direction(Command dir)
@@ -44,7 +48,7 @@ public class SkillMovementBasic : ISkill
 
         foreach (var key in movementCommandList)
         {
-            if (((ISkill) this).checkInput(key))
+            if (this.checkInput(key))
             {
                 dir += direction(key);
                 anyMovementKeyPressed = true;
@@ -64,5 +68,23 @@ public class SkillMovementBasic : ISkill
     {
         movementCommands.Add(time, new Vector2(0, 0));
         return true;
+    }
+
+    public float EnemyReletiveTime;
+    public override void SyncData()
+    {
+        List<Tuple<float, Vector2>> data = movementCommands.AllEventsAfterTime(EnemyReletiveTime);
+
+        photonView.RPC("AcceptSyncData", RpcTarget.Others, data);
+
+        EnemyReletiveTime = History.Inst.time;
+    }
+
+    [PunRPC]
+    private void AcceptSyncData(List<Tuple<float, Vector2>> data)
+    {
+        data.Sort();
+        foreach (var item in data)
+            movementCommands.Add(item.Item1, item.Item2);
     }
 }
