@@ -50,7 +50,6 @@ public class HistoryObject : IHistoryObject
     {
         if (!position.ContainsKey(id))
         {
-            History.Inst.ObjectList.Remove(this);
             Destroy(this.gameObject);
             return;
         }
@@ -114,5 +113,10 @@ public class HistoryObject : IHistoryObject
             tempAngularVelocity = angularV;
         else
             rigidbody.angularVelocity = angularV;
+    }
+
+    protected virtual void OnDestroy()
+    {
+        History.Inst.ObjectList.Remove(this);
     }
 }

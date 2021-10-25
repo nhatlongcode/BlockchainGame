@@ -5,17 +5,68 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Matchmaking : MonoBehaviourPunCallbacks
+public class Matchmaking : MonoBehaviourPunCallbacks, IMatchmakingCallbacks, ILobbyCallbacks
 {
+    public float TimeUntilRestartPrompt = 10;
+
+    void Update()
+    {
+        TimeUntilRestartPrompt -= Time.deltaTime;
+        if (TimeUntilRestartPrompt < 0)
+            ;// TODO
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = 2;
 
-        PhotonNetwork.JoinRandomOrCreateRoom();
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.JoinLobby();
+            Debug.Log("Joining Lobby");
+        }
+        else
+        {
+            PhotonNetwork.ConnectUsingSettings();
+            Debug.Log("Connecting");
+        }
+    }
 
+    public override void OnJoinedLobby()
+    {
+        base.OnJoinedLobby();
+
+        PhotonNetwork.JoinRandomOrCreateRoom();
+        Debug.Log("Joining room");
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        base.OnConnectedToMaster();
+        PhotonNetwork.JoinLobby();
+        Debug.Log("Joining Lobby");
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        base.OnJoinRoomFailed(returnCode, message);
+        PhotonNetwork.JoinRandomOrCreateRoom();
+        Debug.Log("Joining room");
+    }
+
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        base.OnJoinRandomFailed(returnCode, message);
+        PhotonNetwork.JoinRandomOrCreateRoom();
+        Debug.Log("Joining room");
     }
 
     /*

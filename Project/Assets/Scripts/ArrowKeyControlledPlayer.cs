@@ -17,6 +17,8 @@ public class ArrowKeyControlledPlayer : HistoryObject
     }
     State state;
 
+    public bool mine = false;
+
     public int currentSkill = 0;
     
     public ISkill[] SkillList = new ISkill[4];
@@ -28,6 +30,8 @@ public class ArrowKeyControlledPlayer : HistoryObject
         base.Start();
         if (collider == null)
             collider = GetComponent<Collider2D>();
+
+        DontDestroyOnLoad(this);
     }
 
     public const float accel = 10f;
@@ -35,6 +39,12 @@ public class ArrowKeyControlledPlayer : HistoryObject
     // Update is called once per frame
     public override void MyUpdate()
     {
+        if (!mine)
+        {
+            SkillList[currentSkill].Action(time, deltaTime, rigidbody, transform);
+            return;
+        }
+
         if (SkillList[currentSkill].KeyProcess(time, deltaTime, rigidbody, transform) || replayMode)
         {
             History.Inst.StartTime();

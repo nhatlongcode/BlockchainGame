@@ -5,13 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
+    path: Assets/Scenes/MainScreen.unity
+    guid: 40ecb52667da4824db11fb8d62c1beea
+  - enabled: 1
+    path: Assets/Scenes/MatchmakingScene.unity
+    guid: d6023c9fe62380541be085fb79398070
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/Web3Unity/Scenes/WebLogin.unity
     guid: a1b2001e782bb47659732d7e2bcdc35f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Web3Unity/Scenes/TestBlockchain.unity
     guid: a919959034ec34844b8b07f94b34d20e
   m_configObjects: {}

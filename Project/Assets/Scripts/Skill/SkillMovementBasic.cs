@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon;
 using Photon.Pun;
 using System;
+using ExitGames.Client.Photon;
 
 public class SkillMovementBasic : ISkill
 {
@@ -73,18 +74,25 @@ public class SkillMovementBasic : ISkill
     public float EnemyReletiveTime;
     public override void SyncData()
     {
-        List<Tuple<float, Vector2>> data = movementCommands.AllEventsAfterTime(EnemyReletiveTime);
+        List<Event<Vector2>> items = movementCommands.AllEventsAfterTime(EnemyReletiveTime);
+        items.Sort();
+        Event<Vector2>[] data = items.ToArray();
 
-        photonView.RPC("AcceptSyncData", RpcTarget.Others, data);
+        if (data.Length != 0)
+            photonView.RPC("AcceptSyncData_MovementBasic", RpcTarget.Others, (object)data);
 
         EnemyReletiveTime = History.Inst.time;
     }
 
     [PunRPC]
-    private void AcceptSyncData(List<Tuple<float, Vector2>> data)
+    protected virtual void AcceptSyncData_MovementBasic(Event<Vector2>[] data)
     {
-        data.Sort();
-        foreach (var item in data)
-            movementCommands.Add(item.Item1, item.Item2);
+        for (int i = 0; i < data.Length; i++)
+            movementCommands.Add(data[i].Item1, data[i].Item2);
+    }
+
+    static SkillMovementBasic()
+    {
+        GameManager.SerializeTypesToRegister.Add(typeof(Event<Vector2>));
     }
 }

@@ -20,7 +20,7 @@ public class StackList<T> : List<T>
 [Serializable]
 public class TimelineList<T> where T : IEquatable<T>
 {
-    public StackList<Tuple<float, T>> Timeline = new StackList<Tuple<float, T>>();
+    public StackList<Event<T>> Timeline = new StackList<Event<T>>();
 
     public float Top()
     {
@@ -41,7 +41,7 @@ public class TimelineList<T> where T : IEquatable<T>
         }
         else
         {
-            Timeline.Push(Tuple.Create(time, action));
+            Timeline.Push(Event.Create(time, action));
         }
     }
 
@@ -62,9 +62,9 @@ public class TimelineList<T> where T : IEquatable<T>
             Timeline.RemoveRange(0, r + 1);
     }
 
-    public List<Tuple<float, T>> AllEventsAfterTime(float time)
+    public List<Event<T>> AllEventsAfterTime(float time)
     {
-        return new List<Tuple<float, T>>(Timeline.Where(item => item.Item1 > time));
+        return new List<Event<T>>(Timeline.Where(item => item.Item1 > time));
     }
 
     private int binSearch(float time)

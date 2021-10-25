@@ -66,18 +66,24 @@ public class SkillShootBasic : ISkill
     public float EnemyReletiveTime;
     public override void SyncData()
     {
-        List<Tuple<float, BulletProperty>> data = ShotTimeline.AllEventsAfterTime(EnemyReletiveTime);
+        var items = ShotTimeline.AllEventsAfterTime(EnemyReletiveTime);
+        items.Sort();
+        Event<BulletProperty>[] data = items.ToArray();
 
-        photonView.RPC("AcceptSyncData", RpcTarget.Others, data);
+        if (data.Length != 0)
+            photonView.RPC("AcceptSyncData_ShootBasic", RpcTarget.Others, (object)data);
 
         EnemyReletiveTime = History.Inst.time;
     }
 
     [PunRPC]
-    public virtual void AcceptSyncData(List<Tuple<float, BulletProperty>> data)
+    protected virtual void AcceptSyncData_ShootBasic(Event<BulletProperty>[] data)
     {
-        data.Sort();
-        foreach (var item in data)
-            ShotTimeline.Add(item.Item1, item.Item2);
+        for (int i = 0; i < data.Length; i++)
+            ShotTimeline.Add(data[i].Item1, data[i].Item2);
+    }
+    static SkillShootBasic()
+    {
+        GameManager.SerializeTypesToRegister.Add(typeof(Event<BulletProperty>));
     }
 }
