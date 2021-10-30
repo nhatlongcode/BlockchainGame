@@ -7,4 +7,11 @@
     public const float playerTerminalVelocity = 10;
     public const float playerMovementSpeed = 2;
     public const float deltaTimeMemory = 100;
+
+
+    public const int baseCharDamage = 100;
+    public const float baseCharMoveSpeed = 10f;
+    public const float baseShotSpeed = 10f;
+    public const float baseShotRadius = 0.05f;
+    public const int baseShotDamageRadius = 16;
 }

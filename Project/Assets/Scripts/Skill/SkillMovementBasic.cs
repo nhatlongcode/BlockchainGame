@@ -8,7 +8,7 @@ using ExitGames.Client.Photon;
 
 public class SkillMovementBasic : ISkill
 {
-    public const float accel = 10f;
+    public const float accel = Constant.baseCharMoveSpeed;
     
     TimelineList<Vector2> movementCommands = new TimelineList<Vector2>();
 
@@ -44,7 +44,8 @@ public class SkillMovementBasic : ISkill
             Command.Down,
             Command.Left,
             Command.Right,
-            Command.Space
+            Command.Space,
+            Command.Enter
         };
 
         foreach (var key in movementCommandList)

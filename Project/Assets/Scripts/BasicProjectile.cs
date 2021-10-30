@@ -11,7 +11,7 @@ public class BasicProjectile : HistoryObject, IEquatable<BasicProjectile>
     [NonSerialized]
     public float TimeToArm;
 
-    public int destroyCircleSize = 8;
+    public int destroyCircleSize = Constant.baseShotDamageRadius;
     public BulletProperty bulletProperty;
     Shape destroyCircle;
 
