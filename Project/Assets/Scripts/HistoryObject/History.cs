@@ -31,12 +31,12 @@ public class History : IHistoryObject
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!IsTimeStopped)
         {
-            time += Time.deltaTime;
-            deltaTime = Time.deltaTime;
+            time += Time.fixedDeltaTime;
+            deltaTime = Time.fixedDeltaTime;
         }
         else
         {

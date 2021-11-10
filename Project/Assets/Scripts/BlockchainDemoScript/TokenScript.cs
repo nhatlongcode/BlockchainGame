@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
+#if UNITY_WEBGL
 public class TokenScript : MonoBehaviour
 {
     public async void BalanceOf(Text balanceText)
@@ -46,3 +47,4 @@ public class TokenScript : MonoBehaviour
             transactionStatus.text = "Not confirmed";
     }
 }
+#endif

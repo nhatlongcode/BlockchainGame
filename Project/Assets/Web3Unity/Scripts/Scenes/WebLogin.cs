@@ -42,7 +42,7 @@ public class WebLogin : MonoBehaviour
             int currentTime = (int)(DateTime.UtcNow - epochStart).TotalSeconds;
             expirationTime = (currentTime + 30);
             // create message to sign
-            string message = "Please identify your identity as " + account + ". Expire time: " + expirationTime.ToString();
+            string message = "Please identify your identity as " + account + ".\n Expire in: " + expirationTime.ToString();
             string signature = await Web3GL.Sign(message);
             VerifySignature(signature);
         } catch (Exception e) {
@@ -62,7 +62,7 @@ public class WebLogin : MonoBehaviour
             if (currentTime > expirationTime) return;
 
             // get owner of signature
-            string message = "Please identify your identity as " + account + ". Expire time: " + expirationTime.ToString();
+            string message = "Please identify your identity as " + account + ".\n Expire in: " + expirationTime.ToString();
             string owner = await EVM.Verify(message, signature);
 
             // return if not owner
