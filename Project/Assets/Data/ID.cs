@@ -6,13 +6,15 @@ public class ID
     {
         get 
         {
-            return bigInt;
+            return _bigInt;
         }
         set
         {
-            bytes = bigInt.ToByteArray();
+            _bigInt = value;
+            bytes = _bigInt.ToByteArray();
         }
     }
+    private BigInteger _bigInt;
     public byte[] bytes { get; private set; }
 
     public int GetValue(int from, int to)
