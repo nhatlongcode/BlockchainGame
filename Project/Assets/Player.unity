@@ -152,7 +152,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d1c40fb397f15144909214baa8406f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idString: 3
+  idString: 1234123412341234214
+  stats:
+  - name: HP
+    bitCount: 8
+  - name: Speed
+    bitCount: 4
 --- !u!4 &559549479
 Transform:
   m_ObjectHideFlags: 0

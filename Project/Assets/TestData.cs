@@ -3,39 +3,37 @@ using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
 
+[System.Serializable]
+public class CharStat
+{
+    public string name;
+    public byte bitCount;
+}
 public class TestData : MonoBehaviour
 {
-
     public string idString;
+    public List<CharStat> stats;
+
     public ID id = new ID();
     private void Start() 
     {
         var result = new System.Text.StringBuilder();
         id.bigInt = BigInteger.Parse(idString);
-        var bits = new BitArray(id.bytes);
-        Debug.Log(ToBitString(bits));
-        // foreach(var bite in id.bytes)
-        // {
-        //     var bits = new BitArray()
-        //     //result.Append(ToBitString(bits));
-        //     //Debug.Log(ToBitString(bits));
-        //     Debug.Log(bite);
-        //     Debug.Log(ToBitString(bits))
-        // }
-        //result.ToString();
-        //Debug.Log(result);
+        Debug.Log(id.ToBitString());
+        string bits = (id.ToBitString());
+        LogStat();
     }
 
-    public string ToBitString(BitArray bits)
+    public void LogStat()
     {
-        var sb = new System.Text.StringBuilder();
-
-        for (int i = bits.Count - 1; i >= 0; i--)
+        byte start = (byte)(id.ToBitString().Length - 1);
+        foreach(var stat in stats)
         {
-            char c = bits[i] ? '1' : '0';
-            sb.Append(c);
-        }
+            Debug.Log("stat name: " + stat.name);
+            Debug.Log("data: " + id.GetBits(start, stat.bitCount));
+            start -= stat.bitCount;
 
-        return sb.ToString();
+        }
     }
+
 }
