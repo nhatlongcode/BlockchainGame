@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.Assertions;
 
-class PlayerStat
+public class PlayerStat
 {
     public BigInteger Id { get => new BigInteger(id); }
     private byte[] id;
