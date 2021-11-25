@@ -14,6 +14,7 @@ public class BodySet : ScriptableObject {
 
     public int id;
     public string name;
+    public BodyPart defaultBodypart;
     public List<BodyPart> bodyParts;
     
 }
