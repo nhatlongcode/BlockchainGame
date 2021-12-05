@@ -31,7 +31,7 @@ public class PlayerStat
     {
         get
         {
-            return id[0] << 8 + id[1];
+            return (id[0] << 8) + id[1];
         }
     }
 
@@ -39,7 +39,7 @@ public class PlayerStat
     {
         get
         {
-            return id[2] << 8 + id[3];
+            return (id[2] << 8) + id[3];
         }
     }
 
@@ -47,7 +47,7 @@ public class PlayerStat
     {
         get
         {
-            return id[4] << 8 + id[5];
+            return (id[4] << 8) + id[5];
         }
     }
 
@@ -55,7 +55,7 @@ public class PlayerStat
     {
         get
         {
-            return id[6] << 8 + id[7];
+            return (id[6] << 8) + id[7];
         }
     }
     #endregion
@@ -100,7 +100,7 @@ public class PlayerStat
     {
         get
         {
-            return id[16] << 8 + id[17];
+            return (id[16] << 8) + id[17];
         }
     }
 
@@ -108,7 +108,7 @@ public class PlayerStat
     {
         get
         {
-            return id[18] << 8 + id[19];
+            return (id[18] << 8) + id[19];
         }
     }
 
@@ -116,7 +116,7 @@ public class PlayerStat
     {
         get
         {
-            return id[20] << 8 + id[21];
+            return (id[20] << 8) + id[21];
         }
     }
 
@@ -124,7 +124,7 @@ public class PlayerStat
     {
         get
         {
-            return id[22] << 8 + id[23];
+            return (id[22] << 8) + id[23];
         }
     }
     #endregion
