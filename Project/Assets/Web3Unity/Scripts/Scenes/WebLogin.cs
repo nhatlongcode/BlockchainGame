@@ -2,10 +2,12 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 #if UNITY_WEBGL
 public class WebLogin : MonoBehaviour
 {
+    public UnityEvent OnLoggedIn;
     [DllImport("__Internal")]
     private static extern void Web3Connect();
 
@@ -32,6 +34,7 @@ public class WebLogin : MonoBehaviour
             account = ConnectAccount();
         };
         SignLoginMessage(account); 
+        
     }
 
     async private void SignLoginMessage(string account)
@@ -73,9 +76,9 @@ public class WebLogin : MonoBehaviour
 
             // reset login message
             SetConnectAccount("");
-
+            OnLoggedIn?.Invoke();
             // load next scene
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         catch
         {

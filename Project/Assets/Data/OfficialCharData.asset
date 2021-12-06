@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d3457857deb61f4db01b2c7018e6d54, type: 3}
+  m_Name: OfficialCharData
+  m_EditorClassIdentifier: 
+  skill1Set: {fileID: 11400000, guid: dc1308455e8729c4bafaa7aff30b070b, type: 2}
+  skill2Set: {fileID: 11400000, guid: b5b7341b4748b164c80420151989330c, type: 2}
+  skill3Set: {fileID: 11400000, guid: e52c8a278cb91094e92309776b2fab78, type: 2}
+  skill4Set: {fileID: 11400000, guid: 4beb70b4f73225e4697a5578fcc089bc, type: 2}
+  baseDamage: 54
+  baseMoveSpeed: 23
+  baseShotSpeed: 49
+  baseHitboxSize: 5
+  baseShotRadius: 120
+  baseShotDamage: 33
+  baseHP: 300
+  baseMP: 140
+  bodyPartData: {fileID: 11400000, guid: 1f596e3e721d6e8479d876a2b2f6a109, type: 2}

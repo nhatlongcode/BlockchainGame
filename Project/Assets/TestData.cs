@@ -6,12 +6,14 @@ using UnityEngine;
 
 public class TestData : MonoBehaviour
 {
+    public CharacterInfoUI infoUI;
     public string idString;
 
     private void Start() 
     {
 
-        PlayerStat character = new PlayerStat(BigInteger.Parse(idString,System.Globalization.NumberStyles.AllowHexSpecifier));
+        PlayerStat character = new PlayerStat(BigInteger.Parse(idString));
+        infoUI.ShowCharacterStat(character);
         LogStat(character);
         
     }

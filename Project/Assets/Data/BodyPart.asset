@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e9f324aebd152488f2215792faa437, type: 3}
+  m_Name: BodyPart
+  m_EditorClassIdentifier: 
+  bodySet:
+  - name: Thanos
+    sprite: {fileID: 7152930139536384079, guid: de1fad391a3c83f47b12352af2c1ce61, type: 3}
+  - name: Eggy
+    sprite: {fileID: -3950577101938772088, guid: ea9265072a8712a4a9d75b7ecae976ca, type: 3}
+  - name: Furr
+    sprite: {fileID: -3158177244500382725, guid: ea9265072a8712a4a9d75b7ecae976ca, type: 3}
+  - name: Diet
+    sprite: {fileID: 2273706340688605160, guid: ea9265072a8712a4a9d75b7ecae976ca, type: 3}
+  - name: Nom Nom
+    sprite: {fileID: -7073718897371080795, guid: ea9265072a8712a4a9d75b7ecae976ca, type: 3}
+  - name: Dinasour
+    sprite: {fileID: 6136358741425208777, guid: ea9265072a8712a4a9d75b7ecae976ca, type: 3}
+  faceSet:
+  - name: Nobita
+    sprite: {fileID: 4620578802948863353, guid: de1fad391a3c83f47b12352af2c1ce61, type: 3}
+  - name: Arggg
+    sprite: {fileID: 6053977514321097171, guid: ea9265072a8712a4a9d75b7ecae976ca, type: 3}
+  - name: Slippy
+    sprite: {fileID: -8654291583875072750, guid: ea9265072a8712a4a9d75b7ecae976ca, type: 3}
+  hairSet:
+  - name: Trump
+    sprite: {fileID: 7888922196035610388, guid: de1fad391a3c83f47b12352af2c1ce61, type: 3}
+  - name: France
+    sprite: {fileID: 1822710792970894325, guid: de1fad391a3c83f47b12352af2c1ce61, type: 3}
+  - name: Candy
+    sprite: {fileID: -4888305619323244325, guid: de1fad391a3c83f47b12352af2c1ce61, type: 3}
+  mouthSet:
+  - name: Mice
+    sprite: {fileID: -4124168217499134943, guid: de1fad391a3c83f47b12352af2c1ce61, type: 3}
+  - name: Awww
+    sprite: {fileID: 2088338468248811047, guid: ea9265072a8712a4a9d75b7ecae976ca, type: 3}
+  - name: Glu Glu
+    sprite: {fileID: 422774618505009811, guid: ea9265072a8712a4a9d75b7ecae976ca, type: 3}
+  - name: Smile
+    sprite: {fileID: -4183885536883657867, guid: ea9265072a8712a4a9d75b7ecae976ca, type: 3}
+  breadSet:
+  - name: Normal
+    sprite: {fileID: -6835189599539173722, guid: de1fad391a3c83f47b12352af2c1ce61, type: 3}
+  - name: Zicc
+    sprite: {fileID: 1892806461834874077, guid: de1fad391a3c83f47b12352af2c1ce61, type: 3}
+  - name: Bold
+    sprite: {fileID: -4656049468798845499, guid: de1fad391a3c83f47b12352af2c1ce61, type: 3}
+  tailSet:
+  - name: Doraemon
+    sprite: {fileID: -8090365562718305141, guid: de1fad391a3c83f47b12352af2c1ce61, type: 3}
+  earSet:
+  - name: Mochi
+    sprite: {fileID: -5725962078152895296, guid: de1fad391a3c83f47b12352af2c1ce61, type: 3}
+  - name: Gang Yellow
+    sprite: {fileID: 3445332486847661990, guid: de1fad391a3c83f47b12352af2c1ce61, type: 3}
+  - name: Bao Bao
+    sprite: {fileID: 5248155131499935147, guid: de1fad391a3c83f47b12352af2c1ce61, type: 3}
+  - name: Gang Pink
+    sprite: {fileID: 8470420716495695676, guid: de1fad391a3c83f47b12352af2c1ce61, type: 3}
+  - name: Ball
+    sprite: {fileID: -1580347878817688430, guid: de1fad391a3c83f47b12352af2c1ce61, type: 3}
