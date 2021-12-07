@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 public class CharacterInfoUI : MonoBehaviour
 {
+    public CharacterVisual characterVisual;
     public Text IDText;
     public Text skill1Text;
     public Text skill2Text;

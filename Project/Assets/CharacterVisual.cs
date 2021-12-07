@@ -5,14 +5,13 @@ using UnityEngine;
 public class CharacterVisual : MonoBehaviour
 {
     [Header("Body part")]
-    public Image Body;
-    public Image Glass;
-    public Image Eye;
-    public Image Hair;
-    public Image Mouth;
-    public Image Bread;
-    public Image Tail;
-    public Image EarLeft;
-    public Image EarRight;
+    public Image bodyImage;
+    public Image faceImage;
+    public Image hairImage;
+    public Image mouthImage;
+    public Image breadImage;
+    public Image tailImage;
+    public Image earLefImage;
+    public Image earRightImage;
 
 }
