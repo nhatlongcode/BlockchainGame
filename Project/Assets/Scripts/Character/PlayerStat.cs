@@ -167,19 +167,18 @@ public class PlayerStat
     #endregion
 
     #region Body Part
-    public int ArtModulo = 8;
 
-    public int Body { get => Skill1 % ArtModulo; }
-    public int Glass { get => Skill2 % ArtModulo; }
+    public int Body { get => Skill1; }
+    public int Glass { get => Skill2; }
 
-    public int Eye { get => (PatternMatching(pattern1, 8, 9) + 8) % ArtModulo; }
+    public int Eye { get => (PatternMatching(pattern1, 8, 9) + 8); }
     //public int Eye { get => (int)Math.Floor(DamageModifier * 100 - 92) % ArtModulo; }
-    public int Hair { get => (WindPatternDeltaX + 8) % ArtModulo; }
-    public int Mouth { get => (PatternMatching(pattern2, 12, 13, 14, 15) + 16) % ArtModulo; }
+    public int Hair { get => (WindPatternDeltaX + 8); }
+    public int Mouth { get => (PatternMatching(pattern2, 12, 13, 14, 15) + 16); }
     //public int Mouth { get => (int)Math.Floor(MP_Modifier * 100 - 92) % ArtModulo; }
-    public int Beard { get => Skill3 % ArtModulo; }
-    public int Tail { get => Skill4 % ArtModulo; }
-    public int Ear { get => (WindPatternDeltaY + 8) % ArtModulo; }
+    public int Beard { get => Skill3; }
+    public int Tail { get => Skill4; }
+    public int Ear { get => (WindPatternDeltaY + 8); }
     #endregion
 
     public const uint pattern1 = 0x00000000;
