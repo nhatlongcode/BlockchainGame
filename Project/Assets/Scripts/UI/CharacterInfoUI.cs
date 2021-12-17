@@ -39,13 +39,35 @@ public class CharacterInfoUI : MonoBehaviour
         skill2Text.text = ChooseSkill(stat.Skill2, DataManager.Instance.data.skill2Set.skills).name;
         skill3Text.text = ChooseSkill(stat.Skill3, DataManager.Instance.data.skill3Set.skills).name;
         skill4Text.text = ChooseSkill(stat.Skill4, DataManager.Instance.data.skill4Set.skills).name;
-        AssignBodyPartInfo(tailText, tailImage, stat.Tail, DataManager.Instance.data.bodyPartData.tailSet);
-        AssignBodyPartInfo(bodyText, bodyImage, stat.Body, DataManager.Instance.data.bodyPartData.bodySet);
-        AssignBodyPartInfo(eyeText, eyeImage, stat.Eye, DataManager.Instance.data.bodyPartData.faceSet);
-        AssignBodyPartInfo(beardText, beardImage, stat.Beard, DataManager.Instance.data.bodyPartData.breadSet);
-        AssignBodyPartInfo(mouthText, mouthImage, stat.Mouth, DataManager.Instance.data.bodyPartData.mouthSet);
-        AssignBodyPartInfo(earText, earImage, stat.Ear, DataManager.Instance.data.bodyPartData.earSet);
-        AssignBodyPartInfo(hairText, hairImage, stat.Hair, DataManager.Instance.data.bodyPartData.hairSet);
+        
+        BodyPart tail = ChooseBodyPart(stat.Tail, DataManager.Instance.data.bodyPartData.tailSet);
+        AssignBodyPartInfo(tailText, tailImage, tail);
+        characterVisual.AssignTail(tail.sprite);
+
+        BodyPart body = ChooseBodyPart(stat.Body, DataManager.Instance.data.bodyPartData.bodySet);
+        AssignBodyPartInfo(bodyText, bodyImage, body);
+        characterVisual.AssignBody(body.sprite);  
+
+        BodyPart eye = ChooseBodyPart(stat.Eye, DataManager.Instance.data.bodyPartData.faceSet);
+        AssignBodyPartInfo(eyeText, eyeImage, eye);
+        characterVisual.AssignEye(eye.sprite);  
+
+        BodyPart beard = ChooseBodyPart(stat.Beard, DataManager.Instance.data.bodyPartData.breadSet);
+        AssignBodyPartInfo(beardText, beardImage, beard);
+        characterVisual.AssignBeard(beard.sprite);  
+
+        BodyPart mouth = ChooseBodyPart(stat.Mouth, DataManager.Instance.data.bodyPartData.mouthSet);
+        AssignBodyPartInfo(mouthText, mouthImage, mouth);
+        characterVisual.AssignMouth(mouth.sprite); 
+
+        BodyPart hair = ChooseBodyPart(stat.Hair, DataManager.Instance.data.bodyPartData.hairSet);
+        AssignBodyPartInfo(hairText, hairImage, hair);
+        characterVisual.AssignHair(hair.sprite); 
+
+        BodyPart ear = ChooseBodyPart(stat.Ear, DataManager.Instance.data.bodyPartData.earSet);
+        AssignBodyPartInfo(earText, earImage, ear);
+        characterVisual.AssignEar(ear.sprite); 
+
         damageText.text = CalcStat(DataManager.Instance.data.baseDamage,stat.DamageModifier).ToString();
         moveSpeedText.text = CalcStat(DataManager.Instance.data.baseMoveSpeed,stat.MoveSpeedModifier).ToString();
         shotSpeedText.text = CalcStat(DataManager.Instance.data.baseShotSpeed,stat.ShotSpeedModifier).ToString();
@@ -62,16 +84,15 @@ public class CharacterInfoUI : MonoBehaviour
         return list[index];
     }
 
-    public int ChooseBodyPartID(int rawID, int modulo)
+    public BodyPart ChooseBodyPart(int rawId, List<BodyPart> data)
     {
-        return rawID % modulo;
+        return data[rawId % data.Count];
     }
 
-    public void AssignBodyPartInfo(Text text, Image image, int rawId, List<BodyPart> data)
+    public void AssignBodyPartInfo(Text infoText, Image infoImage, BodyPart part)
     {
-        BodyPart part = data[rawId % data.Count];
-        text.text = part.name;
-        image.sprite = part.sprite;
+        infoText.text = part.name;
+        infoImage.sprite = part.sprite;
     }
 
     public float CalcStat(float baseStat, float modifier)
