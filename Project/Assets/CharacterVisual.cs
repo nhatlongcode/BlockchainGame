@@ -1,5 +1,6 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 
 public class CharacterVisual : MonoBehaviour
@@ -13,6 +14,16 @@ public class CharacterVisual : MonoBehaviour
     public Image tailImage;
     public Image earLefImage;
     public Image earRightImage;
+    public void ShowCharacter(PlayerStat stat)
+    {
+        AssignBody(DataManager.Instance.data.bodyPartData.GetBody(stat.Body).sprite);
+        AssignEye(DataManager.Instance.data.bodyPartData.GetEye(stat.Eye).sprite);
+        AssignHair(DataManager.Instance.data.bodyPartData.GetHair(stat.Hair).sprite);
+        AssignMouth(DataManager.Instance.data.bodyPartData.GetMouth(stat.Mouth).sprite);
+        AssignBeard(DataManager.Instance.data.bodyPartData.GetBeard(stat.Beard).sprite);
+        AssignTail(DataManager.Instance.data.bodyPartData.GetTail(stat.Tail).sprite);
+        AssignEar(DataManager.Instance.data.bodyPartData.GetEar(stat.Ear).sprite);
+    }
 
     public void AssignBody(Sprite sprite)
     {
