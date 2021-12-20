@@ -25,7 +25,7 @@ public class WebGLTransfer20: MonoBehaviour
         // value in wei
         string value = "0";
         // gas limit OPTIONAL
-        string gas = "21000";
+        string gas = "";
         // connects to user's browser wallet (metamask) to send a transaction
         try {
             string response = await Web3GL.Send(method, abi, contract, args, value, gas);

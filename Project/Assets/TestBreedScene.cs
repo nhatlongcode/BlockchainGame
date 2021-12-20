@@ -7,37 +7,38 @@ using UnityEngine.UI;
 
 public class TestBreedScene : MonoBehaviour
 {
-    public CharIDButton charIDButtonPrefab;
-    public GameObject charIDButtonHolder;
+    public BreedCard breedCardPrefab;
+    public GameObject characterCardHolder;
+    public CharacterVisual char1Selected;
+    public CharacterVisual char2Selected;
+    public Transform breedPanel;
+    public CharacterVisual breedCharacter;
+    
     public WebLogin webLogin;
-    public Button selectedButton1;
-    public Button selectedButton2;
-    public Text selectedText1;
-    public Text selectedText2;
-    public Text resultText;
-    public Text accountText;
+
     private List<CharIDButton> buttons;
+    //[SerializeField]
     private string account;
 
     private void Awake() {
         webLogin.OnLoggedIn.AddListener(OnLoggedIn);
-        selectedButton1.onClick.AddListener(DeselectChar1);
-        selectedButton2.onClick.AddListener(DeselectChar2);
+        //OnLoggedIn();
         DeselectChar1();
         DeselectChar2();
     }
 
-    public void AddButtonData(string id)
+    public void AddButtonData(BigInteger id)
     {
-        var newButton = Instantiate(charIDButtonPrefab, charIDButtonHolder.transform);
-        newButton.IDText.text = id;
-        newButton.CallWhenPressedEvent.AddListener(SelectChar);
+        var breedCard = Instantiate(breedCardPrefab, characterCardHolder.transform);
+        breedCard.AssignCharacter(id);
+        breedCard.callWhenPressed += SelectChar;
+        //newButton.CallWhenPressedEvent.AddListener(SelectChar);
     }
 
     public void OnLoggedIn()
     {
         account = PlayerPrefs.GetString("Account");
-        accountText.text = account;
+        //accountText.text = account;
         Debug.Log(account);
         LoadOwnedCharacter();
     }
@@ -52,36 +53,71 @@ public class TestBreedScene : MonoBehaviour
         foreach(var id in IDs)
         {
             Debug.Log(id.ToString());
-            AddButtonData(id.ToString());
+            AddButtonData(id);
         }
     }
 
-    public void SelectChar(string id)
+    public void SelectChar(BigInteger id)
     {
-        if (selectedText1.text == "")
+        if ((char1Selected.playerStat != null && char1Selected.playerStat.Id == id) || (char2Selected.playerStat != null && char2Selected.playerStat.Id == id)) return;
+        if (char1Selected.playerStat == null)
         {
-            selectedText1.text = id;
+            char1Selected.gameObject.SetActive(true);
+            char1Selected.ShowCharacter(new PlayerStat(id));
+            Debug.Log(char1Selected.playerStat.Id);
         }
-        else if (selectedText2.text == "")
+        else if (char2Selected.playerStat == null)
         {
-            selectedText2.text = id;
+            char2Selected.gameObject.SetActive(true);
+            char2Selected.ShowCharacter(new PlayerStat(id));
         }
     }
 
     public void DeselectChar1()
     {
-        selectedText1.text = "";
+        char1Selected.gameObject.SetActive(false);
+        char1Selected.ClearCharacter();
     }
 
     public void DeselectChar2()
     {
-        selectedText2.text = "";
+        char2Selected.gameObject.SetActive(false);
+        char2Selected.ClearCharacter();
     }
 
     public async void OnBreedButtonPressed()
     {
-        if (selectedText1.text == "" || selectedText2.text == "") return;
-        string result = await MyToken.Breed(BigInteger.Parse(selectedText1.text), BigInteger.Parse(selectedText2.text));
-        resultText.text = result;
+        Debug.Log("button pressed");
+        //ShowBreedPanel();
+        if (char1Selected.playerStat == null || char2Selected.playerStat == null) return;
+        string transaction = await MyToken.Breed(char1Selected.playerStat.Id, char2Selected.playerStat.Id);
+        //bool result = await MyToken.IsTransactionConfirmed(transaction);
+       // if (result == true) ShowBreedPanel();
+        // resultText.text = result;
     }
+
+
+    public void ShowBreedPanel()
+    {
+        Debug.Log("show panel");
+        breedPanel.gameObject.SetActive(true);
+        breedCharacter.ShowCharacter(new PlayerStat(new BigInteger(PlayerStat.Breed(char1Selected.playerStat.Id.ToByteArray(), char2Selected.playerStat.Id.ToByteArray()))));
+    }
+
+    public void HideBreedPanel()
+    {
+        breedPanel.gameObject.SetActive(false);
+        UpdateCharacterList();
+        //update list character
+    }
+
+    public void UpdateCharacterList()
+    {
+        foreach (Transform child in characterCardHolder.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        LoadOwnedCharacter();
+    }
+
 }
