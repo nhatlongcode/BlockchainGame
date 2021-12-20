@@ -14,7 +14,7 @@ public class PlayerStat
     {
         this.id = id.ToByteArray();
         Array.Resize(ref this.id, 32);
-        this.id = this.id.Reverse().ToArray();
+        //this.id = this.id.ToArray();
         CalculateWindPattern();
         CalculateCritChance();
     }

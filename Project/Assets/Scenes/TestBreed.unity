@@ -576,6 +576,7 @@ MonoBehaviour:
   breedPanel: {fileID: 898191888}
   breedCharacter: {fileID: 155438709}
   webLogin: {fileID: 279070847}
+  account: 0x9e26135fEAE071Aba5Af54ADB8e9Bc334B2E11d1
 --- !u!4 &279070846
 Transform:
   m_ObjectHideFlags: 0

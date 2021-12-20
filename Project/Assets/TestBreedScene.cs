@@ -70,6 +70,7 @@ public class TestBreedScene : MonoBehaviour
         {
             char2Selected.gameObject.SetActive(true);
             char2Selected.ShowCharacter(new PlayerStat(id));
+            Debug.Log(char2Selected.playerStat.Id);
         }
     }
 
@@ -91,8 +92,10 @@ public class TestBreedScene : MonoBehaviour
         //ShowBreedPanel();
         if (char1Selected.playerStat == null || char2Selected.playerStat == null) return;
         string transaction = await MyToken.Breed(char1Selected.playerStat.Id, char2Selected.playerStat.Id);
-        //bool result = await MyToken.IsTransactionConfirmed(transaction);
-       // if (result == true) ShowBreedPanel();
+        //Debug.Log("parent1: " + char1Selected.playerStat.Id);
+        //Debug.Log("parent2: " + char1Selected.playerStat.Id);
+        bool result = await MyToken.IsTransactionConfirmed(transaction);
+        if (result == true) ShowBreedPanel();
         // resultText.text = result;
     }
 
