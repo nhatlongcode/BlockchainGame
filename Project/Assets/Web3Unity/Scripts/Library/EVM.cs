@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 
 public class EVM
 {
+  public class Response<T> { public T response; }
+
   public class StringResponse { public string response; }
   public class BoolResponse { public bool response; }
   public class IntResponse { public int response; }
@@ -80,11 +82,11 @@ public class EVM
     form.AddField("network", _network);
     form.AddField("transaction", _transaction);
     form.AddField("rpc", _rpc);
-    string url = host + "/isTxConfirmed";
+    string url = host + "/txStatus";
     UnityWebRequest webRequest = UnityWebRequest.Post(url, form);
     await webRequest.SendWebRequest();
-    BoolResponse data = JsonUtility.FromJson<BoolResponse>(System.Text.Encoding.UTF8.GetString(webRequest.downloadHandler.data));
-    return data.response;
+    Response<string> data = JsonUtility.FromJson<Response<string>>(System.Text.Encoding.UTF8.GetString(webRequest.downloadHandler.data));
+    return data.response.ToLower() == "success" || data.response.ToLower() == "confirmed";
   }
 
   public static async Task<int> BlockNumber(string _chain, string _network, string _rpc = "")
