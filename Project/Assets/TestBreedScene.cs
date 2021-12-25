@@ -14,7 +14,7 @@ public class TestBreedScene : MonoBehaviour
     public Transform breedPanel;
     public CharacterVisual breedCharacter;
     public Text resultText;
-    
+    public WebLogin webLogin;
 
     private List<CharIDButton> buttons;
     //[SerializeField]
@@ -105,7 +105,7 @@ public class TestBreedScene : MonoBehaviour
     public async void CheckBreedResult(string hash)
     {
         bool result = await MyToken.IsTransactionConfirmed(hash);
-        //if (result == true) ShowBreedPanel();
+        if (result == true) ShowBreedPanel();
         resultText.text = result.ToString();
     }
 

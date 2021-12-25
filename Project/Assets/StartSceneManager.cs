@@ -14,26 +14,27 @@ public class StartSceneManager : MonoBehaviour
     private string account;
     private void Awake() 
     {
-        if (PlayerPrefs.HasKey("Account"))
-        {
-            account = PlayerPrefs.GetString("Account","");
-            if (account != "")
-            {
-                HideLogInPanel();
-            }
-            else ShowLogInPanel();
-        }
-        else
-        {
-            ShowLogInPanel();
-        }
-        
+        // if (PlayerPrefs.HasKey("Account"))
+        // {
+        //     account = PlayerPrefs.GetString("Account","");
+        //     if (account != "")
+        //     {
+        //         HideLogInPanel();
+        //     }
+        //     else ShowLogInPanel();
+        // }
+        // else
+        // {
+        //     ShowLogInPanel();
+        // }
+        webLogin.OnLoggedIn.AddListener(OnLoggedIn);
+        webLogin.OnLogin();
         
     }
 
     public void ShowLogInPanel()
     {
-        webLogin.OnLoggedIn.AddListener(OnLoggedIn);
+        
         logInPanel.gameObject.SetActive(true);
     }
 
