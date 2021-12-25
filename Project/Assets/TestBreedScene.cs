@@ -13,16 +13,18 @@ public class TestBreedScene : MonoBehaviour
     public CharacterVisual char2Selected;
     public Transform breedPanel;
     public CharacterVisual breedCharacter;
+    public Text resultText;
     
-    public WebLogin webLogin;
 
     private List<CharIDButton> buttons;
     //[SerializeField]
     private string account;
 
     private void Awake() {
-        webLogin.OnLoggedIn.AddListener(OnLoggedIn);
+        //webLogin.OnLoggedIn.AddListener(OnLoggedIn);
         //OnLoggedIn();
+        account = PlayerPrefs.GetString("Account");
+        LoadOwnedCharacter();
         DeselectChar1();
         DeselectChar2();
     }
@@ -37,10 +39,10 @@ public class TestBreedScene : MonoBehaviour
 
     public void OnLoggedIn()
     {
-        account = PlayerPrefs.GetString("Account");
+        
         //accountText.text = account;
         Debug.Log(account);
-        LoadOwnedCharacter();
+        
     }
 
     public async void LoadOwnedCharacter()
@@ -92,11 +94,19 @@ public class TestBreedScene : MonoBehaviour
         //ShowBreedPanel();
         if (char1Selected.playerStat == null || char2Selected.playerStat == null) return;
         string transaction = await MyToken.Breed(char1Selected.playerStat.Id, char2Selected.playerStat.Id);
+        CheckBreedResult(transaction);
         //Debug.Log("parent1: " + char1Selected.playerStat.Id);
         //Debug.Log("parent2: " + char1Selected.playerStat.Id);
-        bool result = await MyToken.IsTransactionConfirmed(transaction);
-        if (result == true) ShowBreedPanel();
+        //is (await MyToken.IsTransactionConfirmed(transaction))
+        //if (result == true) ShowBreedPanel();
         // resultText.text = result;
+    }
+
+    public async void CheckBreedResult(string hash)
+    {
+        bool result = await MyToken.IsTransactionConfirmed(hash);
+        //if (result == true) ShowBreedPanel();
+        resultText.text = result.ToString();
     }
 
 
