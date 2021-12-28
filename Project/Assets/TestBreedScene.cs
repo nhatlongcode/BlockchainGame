@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Numerics;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +14,7 @@ public class TestBreedScene : MonoBehaviour
     public Transform breedPanel;
     public CharacterVisual breedCharacter;
     public Text resultText;
+    public Text coinText;
     public WebLogin webLogin;
 
     private List<CharIDButton> buttons;
@@ -23,10 +24,22 @@ public class TestBreedScene : MonoBehaviour
     private void Awake() {
         //webLogin.OnLoggedIn.AddListener(OnLoggedIn);
         //OnLoggedIn();
-        account = PlayerPrefs.GetString("Account");
+        account = PlayerPrefs.GetString("Account","");
+        if (account == "") account = "0x9e26135fEAE071Aba5Af54ADB8e9Bc334B2E11d1";
         LoadOwnedCharacter();
+        LoadCoinData();
         DeselectChar1();
         DeselectChar2();
+    }
+    public async void LoadCoinData()
+    {
+        BigInteger amount = await MyToken.BalanceOf(account);
+        coinText.text = amount.ToString();
+    }
+
+    public void BackToStartScene()
+    {
+        SceneManager.LoadScene("Start");
     }
 
     public void AddButtonData(BigInteger id)
@@ -44,6 +57,7 @@ public class TestBreedScene : MonoBehaviour
         Debug.Log(account);
         
     }
+    
 
     public async void LoadOwnedCharacter()
     {
@@ -55,7 +69,10 @@ public class TestBreedScene : MonoBehaviour
         foreach(var id in IDs)
         {
             Debug.Log(id.ToString());
-            AddButtonData(id);
+            int price = await MyToken.GetSellPrice(id); 
+            if (!(id.ToString() == "1766900985905872605661971217099209419799069147884130072262361666378224417" ||
+                id.ToString() == "26961592203541870915946560710015769672447776188642332113791347020577" ||
+                price != 0)) AddButtonData(id);
         }
     }
 

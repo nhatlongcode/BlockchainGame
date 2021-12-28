@@ -20,16 +20,16 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Web3Unity/Scenes/TestBlockchain.unity
     guid: a919959034ec34844b8b07f94b34d20e
-  - enabled: 0
-    path: Assets/Scenes/Shop.unity
-    guid: fcecaf582583895458ae159fe8ffdd1f
   - enabled: 1
     path: Assets/Scenes/Start.unity
     guid: 327342dfb2fddc3459089ed4827ee051
   - enabled: 1
+    path: Assets/Scenes/Shop.unity
+    guid: fcecaf582583895458ae159fe8ffdd1f
+  - enabled: 1
     path: Assets/Scenes/Breed.unity
     guid: c829bce1e10981047ba32c5e616a67c7
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Inventory.unity
     guid: 36acde69038869c4da37772f8a32faaa
   m_configObjects: {}

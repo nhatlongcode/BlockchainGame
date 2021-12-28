@@ -39,7 +39,7 @@ class MyToken
             List<BigInteger> tokens = new List<BigInteger>();
             for (int i = 0; i < items.Length; i++)
             {
-                tokens.Add(BigInteger.Parse(items[i]));
+                tokens.Add(ParseBigInt(items[i]));
             }
             return tokens;
         }
@@ -247,7 +247,7 @@ class MyToken
         string method = "salePrice";
         List<string[]> obj = new List<string[]>();
         for (int i = 0; i < items.Count; i++)
-            obj.Add(new string[] { items.ToString() });
+            obj.Add(new string[] { items[i].ToString() });
         string args = JsonConvert.SerializeObject(obj.ToArray());
         string response = await EVM.MultiCall(chain, network, contractERC721, abiERC721, method, args, _rpc);
 
@@ -266,6 +266,15 @@ class MyToken
             Debug.LogException(e);
             throw;
         }
+    }
+
+    public static async Task<int> GetSellPrice(BigInteger id, string _rpc = "")
+    {
+        string method = "salePrice";
+        string[] obj = { id.ToString() };
+        string args = JsonConvert.SerializeObject(obj);
+        string response = await EVM.Call(chain, network, contractERC721, abiERC721, method, args, _rpc);
+        return Int32.Parse(response);
     }
 #if UNITY_WEBGL
     /// <summary>

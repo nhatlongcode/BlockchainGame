@@ -12,6 +12,7 @@ public class StartSceneManager : MonoBehaviour
     public WebLogin webLogin;
     public Text coinText;
     private string account;
+    private static bool isLoggedin = false;
     private void Awake() 
     {
         // if (PlayerPrefs.HasKey("Account"))
@@ -27,8 +28,12 @@ public class StartSceneManager : MonoBehaviour
         // {
         //     ShowLogInPanel();
         // }
-        webLogin.OnLoggedIn.AddListener(OnLoggedIn);
-        webLogin.OnLogin();
+        account = PlayerPrefs.GetString("Account");
+        if (!isLoggedin)
+        {
+            webLogin.OnLoggedIn.AddListener(OnLoggedIn);
+            webLogin.OnLogin();
+        }
         
     }
 
@@ -46,6 +51,7 @@ public class StartSceneManager : MonoBehaviour
     public void OnLoggedIn()
     {
         HideLogInPanel();
+        isLoggedin = true;
         account = PlayerPrefs.GetString("Account","");
         SetCoinText();
     }

@@ -1,4 +1,4 @@
-using System.Collections;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Numerics;
@@ -7,23 +7,82 @@ using UnityEngine;
 public class ShopManager : MonoBehaviour
 {
     public ShopCard shopCardPrefab;
+    public Transform shopCardHolder;
     public Text coinText;
+    private Dictionary<BigInteger, BigInteger> salePrices;
     private string account;
     private void Awake() 
     {
-        account = PlayerPrefs.GetString("Account");
-        //LoadShopData();
+        account = PlayerPrefs.GetString("Account","");
+        if (account == "") account = "0x9e26135fEAE071Aba5Af54ADB8e9Bc334B2E11d1";
+        salePrices = new Dictionary<BigInteger, BigInteger>();
+        LoadShopData();
+        LoadCoinData();
+    }
 
+    public async void LoadCoinData()
+    {
+        BigInteger amount = await MyToken.BalanceOf(account);
+        coinText.text = amount.ToString();
     }
 
     public async void LoadShopData()
     {
         List<BigInteger> ls = await MyToken.ItemsForSale(0, 100);
-        Debug.Log(ls.Count);
         foreach (var id in ls)
         {
-            Debug.Log(id.ToString());
+            string owner = await MyToken.OwnerOf(id);
+            if (id != 0 && account != owner) 
+            {
+                int price = await MyToken.GetSellPrice(id);
+                AddShopCard(id, price);
+            }
         }
+
+        // Dictionary<BigInteger, BigInteger> dict = await MyToken.GetSalePrices(0, 100);
+        // Debug.Log(dict.Count);
+        // foreach (var id in ls)
+        // {
+        //     Debug.Log(id.ToString());
+        //     // if (id != 0)
+        //     // {
+        //     //     if (salePrices.ContainsKey(id))
+        //     //     {
+        //     //         AddShopCard(id, salePrices[id]);
+        //     //     }
+        //     // }
+        // }
+    }
+
+    // public async int GetSellPrice(BigInteger id)
+    // {
+    //     int price = await MyToken.GetSellPrice(id);
+    //     Debug.Log(price);
+    //     return price;
+    // }
+
+    public async void GetSalePrices()
+    {
+        var result = await MyToken.GetSalePrices(0, 100);
+        salePrices = result;
+    }
+
+    public void AddShopCard(BigInteger id, BigInteger price)
+    {
+        var go = Instantiate(shopCardPrefab, shopCardHolder);
+        go.ShowCard(id, price);
+        go.buyButtonPressed += BuyButtonPressed;
+    }
+
+    public async void GetSalePrice()
+    {
+        //MyToken.GetSalePrices
+    }
+
+    public async void BuyButtonPressed(BigInteger id)
+    {
+        BigInteger balance = await MyToken.BalanceOf(account);
+        string hash = await MyToken.BuyWithBudget(id, balance);
     }
 
     public void UpdateBudget()
@@ -31,4 +90,8 @@ public class ShopManager : MonoBehaviour
         
     }
 
+    public void BackToStartScene()
+    {
+        SceneManager.LoadScene("Start");
+    }
 }
