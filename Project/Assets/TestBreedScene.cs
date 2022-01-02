@@ -135,7 +135,12 @@ public class TestBreedScene : MonoBehaviour
         //resultText.text = result.ToString();
     }
 
-
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            LoadOwnedCharacter();
+        }
+    }
     public void ShowBreedPanel()
     {
         Debug.Log("show panel");

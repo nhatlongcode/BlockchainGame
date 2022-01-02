@@ -20,11 +20,28 @@ public class ShopManager : MonoBehaviour
         LoadShopData();
         LoadCoinData();
     }
+        private void Update() 
+        {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            LoadOwnedCharacter();
+        }
+    }
 
     public async void LoadCoinData()
     {
         BigInteger amount = await MyToken.BalanceOf(account)/1000000000000000000;
         coinText.text = amount.ToString();
+    }
+
+    public void LoadOwnedCharacter()
+    {
+        foreach(Transform child in shopCardHolder.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        LoadShopData();
     }
 
     public async void LoadShopData()

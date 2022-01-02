@@ -58,7 +58,7 @@ public class StartSceneManager : MonoBehaviour
 
     public async void SetCoinText()
     {
-        BigInteger balance = await MyToken.BalanceOf(account);
+        BigInteger balance = await MyToken.BalanceOf(account)/1000000000000000000;
         coinText.text = balance.ToString();
     }
 
