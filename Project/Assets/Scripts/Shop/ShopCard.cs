@@ -8,6 +8,7 @@ public class ShopCard : MonoBehaviour
     public Text priceText;
     public CharacterVisual visual;
     public UnityAction<BigInteger> buyButtonPressed;
+    public UnityAction<BigInteger> infButtonPressed;
     public void ShowCard(BigInteger id, BigInteger price)
     {
         this.id = id;
@@ -19,5 +20,10 @@ public class ShopCard : MonoBehaviour
     {
         //string hash = await MyToken.Buy(id);
         buyButtonPressed?.Invoke(id);
+    }
+
+    public void InfoButtonPressed()
+    {
+        infButtonPressed?.Invoke(id);
     }
 }

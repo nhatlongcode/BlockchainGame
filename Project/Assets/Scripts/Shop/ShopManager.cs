@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
+    public CharacterInfoUI infoUI;
     public ShopCard shopCardPrefab;
     public Transform shopCardHolder;
     public Text coinText;
@@ -22,7 +23,7 @@ public class ShopManager : MonoBehaviour
 
     public async void LoadCoinData()
     {
-        BigInteger amount = await MyToken.BalanceOf(account);
+        BigInteger amount = await MyToken.BalanceOf(account)/1000000000000000000;
         coinText.text = amount.ToString();
     }
 
@@ -34,7 +35,7 @@ public class ShopManager : MonoBehaviour
             string owner = await MyToken.OwnerOf(id);
             if (id != 0 && account != owner) 
             {
-                int price = await MyToken.GetSellPrice(id);
+                BigInteger price = await MyToken.GetSellPrice(id);
                 AddShopCard(id, price);
             }
         }
@@ -70,8 +71,9 @@ public class ShopManager : MonoBehaviour
     public void AddShopCard(BigInteger id, BigInteger price)
     {
         var go = Instantiate(shopCardPrefab, shopCardHolder);
-        go.ShowCard(id, price);
+        go.ShowCard(id, price/1000000000000000000);
         go.buyButtonPressed += BuyButtonPressed;
+        go.infButtonPressed += InfoButtonPressed;
     }
 
     public async void GetSalePrice()
@@ -93,5 +95,11 @@ public class ShopManager : MonoBehaviour
     public void BackToStartScene()
     {
         SceneManager.LoadScene("Start");
+    }
+
+    public void InfoButtonPressed(BigInteger id)
+    {
+        infoUI.ShowCharacterStat(new PlayerStat(id));
+        infoUI.SetActive(true);
     }
 }

@@ -62,8 +62,9 @@ public class CharacterInfoUI : MonoBehaviour
 
     public SkillData ChooseSkill(int index, List<SkillData> list)
     {
-        if (index >= list.Count || index < 0) return list[0];
-        return list[index];
+        //Debug.Log(index);
+        //if (index >= list.Count || index < 0) return list[0];
+        return list[index % list.Count];
     }
 
 
@@ -76,6 +77,12 @@ public class CharacterInfoUI : MonoBehaviour
     public float CalcStat(float baseStat, float modifier)
     {
         return baseStat * modifier;
+    }
+
+    public void SetActive(bool status)
+    {
+        //ShowCharacterStat(stat);
+        this.gameObject.SetActive(status);
     }
 
 }

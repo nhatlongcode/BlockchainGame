@@ -5,11 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class InventoryManager : MonoBehaviour
 {
+    public CharacterInfoUI infoUI;
     public Text priceText;
+    public Text sendText;
     public Text coinText;
     public InventoryCard inventoryCardPrefab;
     public Transform invetoryHolder;
     public Transform sellPanel;
+    public Transform sendPanel;
     private BigInteger sellingId;
     private string account;
 
@@ -19,9 +22,16 @@ public class InventoryManager : MonoBehaviour
         LoadOwnedCharacter();
         LoadCoinData();
     }
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            LoadOwnedCharacter();
+        }
+    }
     public async void LoadCoinData()
     {
-        BigInteger amount = await MyToken.BalanceOf(account);
+        BigInteger amount = await MyToken.BalanceOf(account)/1000000000000000000;
         coinText.text = amount.ToString();
     }
     public async void LoadOwnedCharacter()
@@ -38,10 +48,42 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void BackButtonPressed()
+    public async void UnsellItem(BigInteger id)
     {
-        SceneManager.LoadScene("Start");
+        await MyToken.CancelSale(id);
     }
+    
+    public async void SendProcess()
+    {
+        await MyToken.TransferToken(account, sendText.text, sellingId);
+    }
+
+    public async void SellProcess()
+    {
+        BigInteger price = BigInteger.Parse(priceText.text);
+        string hash = await MyToken.SetSalePrice(sellingId, price*1000000000000000000);
+    }
+
+    public async void AddInventoryCard(BigInteger id)
+    {
+        BigInteger price = await MyToken.GetSellPrice(id); 
+        var go = Instantiate(inventoryCardPrefab, invetoryHolder);
+        go.id = id;
+        if (price != 0) 
+        {
+            go.unsellButtonPressedEvent += UnsellItem;
+            go.infoButtonPressedEvent += InfoButtonPressed;
+            go.SetUnsellState();
+        }
+        else 
+        {
+            go.sellButtonPressedEvent += SellItem;
+            go.sendButtonPressedEvent += SendItem;
+            go.infoButtonPressedEvent += InfoButtonPressed;
+        }
+        go.ShowCharacter(id);
+    }
+
     public void SellItem(BigInteger id)
     {
         //MyToken.SetSalePrice(id, )
@@ -49,19 +91,48 @@ public class InventoryManager : MonoBehaviour
         ShowSellPanel();
     }
 
-    public async void UnsellItem(BigInteger id)
+    public void SendItem(BigInteger id)
     {
-        await MyToken.CancelSale(id);
+        sellingId = id;
+        ShowSendPanel();
     }
+
 
     public void ShowSellPanel()
     {
         sellPanel.gameObject.SetActive(true);
     }
 
+    public void ShowSendPanel()
+    {
+        sendPanel.gameObject.SetActive(true);
+    }
+
+
+    public void BackButtonPressed()
+    {
+        SceneManager.LoadScene("Start");
+    }
+
     public void CancelSellProcess()
     {
         sellPanel.gameObject.SetActive(false);  
+    }
+
+    public void CancelSendProcess()
+    {
+        sendPanel.gameObject.SetActive(false);
+    }
+
+    public void SendButtonPressed()
+    {
+        SendProcess();
+    }
+
+    public void InfoButtonPressed(BigInteger id)
+    {
+        infoUI.ShowCharacterStat(new PlayerStat(id));
+        infoUI.SetActive(true);
     }
 
     public void SellButtonPressed()
@@ -71,30 +142,7 @@ public class InventoryManager : MonoBehaviour
         SellProcess();
     }
 
-    public async void SellProcess()
-    {
-        BigInteger price = BigInteger.Parse(priceText.text);
-        string hash = await MyToken.SetSalePrice(sellingId, price);
-    }
 
-    public async void CheckCard()
-    {
-
-    }
-
-    public async void AddInventoryCard(BigInteger id)
-    {
-        int price = await MyToken.GetSellPrice(id); 
-        var go = Instantiate(inventoryCardPrefab, invetoryHolder);
-        go.id = id;
-        if (price != 0) 
-        {
-            go.unsellButtonPressedEvent += UnsellItem;
-            go.SetUnsellState();
-        }
-        else go.sellButtonPressedEvent += SellItem;
-        go.ShowCharacter(id);
-    }
     private void OnApplicationQuit() 
     {
         PlayerPrefs.DeleteKey("Account");

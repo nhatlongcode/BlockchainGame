@@ -268,13 +268,13 @@ class MyToken
         }
     }
 
-    public static async Task<int> GetSellPrice(BigInteger id, string _rpc = "")
+    public static async Task<BigInteger> GetSellPrice(BigInteger id, string _rpc = "")
     {
         string method = "salePrice";
         string[] obj = { id.ToString() };
         string args = JsonConvert.SerializeObject(obj);
         string response = await EVM.Call(chain, network, contractERC721, abiERC721, method, args, _rpc);
-        return Int32.Parse(response);
+        return BigInteger.Parse(response);
     }
 #if UNITY_WEBGL
     /// <summary>

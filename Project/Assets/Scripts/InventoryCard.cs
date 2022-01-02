@@ -7,10 +7,12 @@ public class InventoryCard : MonoBehaviour
 {
     public Button sellButton;
     public Button unsellButton;
+    public Button sendButton;
     public CharacterVisual visual;
     public BigInteger id;
     public UnityAction<BigInteger> sellButtonPressedEvent;
     public UnityAction<BigInteger> unsellButtonPressedEvent;
+    public UnityAction<BigInteger> sendButtonPressedEvent;
     public UnityAction<BigInteger> infoButtonPressedEvent;
 
     public void ShowCharacter(BigInteger id)
@@ -22,6 +24,7 @@ public class InventoryCard : MonoBehaviour
     public void SetUnsellState()
     {
         unsellButton.gameObject.SetActive(true);
+        sendButton.gameObject.SetActive(false);
         sellButton.gameObject.SetActive(false);
     }
     public void SellButtonPressed()
@@ -36,6 +39,16 @@ public class InventoryCard : MonoBehaviour
         unsellButtonPressedEvent?.Invoke(id);
         sellButton.gameObject.SetActive(true);
         unsellButton.gameObject.SetActive(false);
+    }
+    
+    public void SendButtonPressed()
+    {
+        sendButtonPressedEvent?.Invoke(id);
+    }
+
+    public void InfoButtonPressed()
+    {
+        infoButtonPressedEvent?.Invoke(id);
     }
 
     public void SetSellingState(bool isSelling)

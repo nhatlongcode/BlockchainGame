@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class TestBreedScene : MonoBehaviour
 {
+    public CharacterInfoUI infoUI;
     public BreedCard breedCardPrefab;
     public GameObject characterCardHolder;
     public CharacterVisual char1Selected;
@@ -46,8 +48,15 @@ public class TestBreedScene : MonoBehaviour
     {
         var breedCard = Instantiate(breedCardPrefab, characterCardHolder.transform);
         breedCard.AssignCharacter(id);
-        breedCard.callWhenPressed += SelectChar;
+        breedCard.selectButtonPressedEvent += SelectChar;
+        breedCard.infoButtonPressedEvent += InfoButtonPressed;
         //newButton.CallWhenPressedEvent.AddListener(SelectChar);
+    }
+
+    private void InfoButtonPressed(BigInteger id)
+    {
+        infoUI.ShowCharacterStat(new PlayerStat(id));
+        infoUI.SetActive(true);
     }
 
     public void OnLoggedIn()
@@ -62,14 +71,14 @@ public class TestBreedScene : MonoBehaviour
     public async void LoadOwnedCharacter()
     {
         var IDs = await MyToken.TokensOwned(account);
-        // foreach (Transform child in charIDButtonHolder.transform)
-        // {
-        //     Destroy(child.gameObject);
-        // }
+        foreach (Transform child in characterCardHolder.transform)
+        {
+            Destroy(child.gameObject);
+        }
         foreach(var id in IDs)
         {
             Debug.Log(id.ToString());
-            int price = await MyToken.GetSellPrice(id); 
+            BigInteger price = await MyToken.GetSellPrice(id); 
             if (!(id.ToString() == "1766900985905872605661971217099209419799069147884130072262361666378224417" ||
                 id.ToString() == "26961592203541870915946560710015769672447776188642332113791347020577" ||
                 price != 0)) AddButtonData(id);
@@ -123,7 +132,7 @@ public class TestBreedScene : MonoBehaviour
     {
         bool result = await MyToken.IsTransactionConfirmed(hash);
         if (result == true) ShowBreedPanel();
-        resultText.text = result.ToString();
+        //resultText.text = result.ToString();
     }
 
 

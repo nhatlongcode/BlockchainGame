@@ -10,7 +10,8 @@ public class BreedCard : MonoBehaviour
     [SerializeField]
     private Button selectButton;
     private BigInteger charID;
-    public UnityAction<BigInteger> callWhenPressed;
+    public UnityAction<BigInteger> selectButtonPressedEvent;
+    public UnityAction<BigInteger> infoButtonPressedEvent;
     public void AssignCharacter(BigInteger id)
     {
         charID = id;
@@ -20,7 +21,12 @@ public class BreedCard : MonoBehaviour
 
     public void OnButtonClick()
     {
-        callWhenPressed.Invoke(charID);
+        selectButtonPressedEvent.Invoke(charID);
+    }
+
+    public void InfoButtonPressed()
+    {
+        infoButtonPressedEvent?.Invoke(charID);
     }
 
 }
